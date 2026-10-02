@@ -71,6 +71,7 @@ Object → Real instance
 
 OOP helps organize programs into reusable and manageable components.
 
+Note: This is a predefined fallback explanation because the Gemini daily API quota is currently exhausted.
 """
 
     # Recursion
@@ -149,6 +150,36 @@ This program stores a name in a variable and displays it.
 ### 💡 Easy to Remember
 
 Python = Simple syntax + Many applications
+"""
+
+    # Pythagoras Theorem
+    if (
+        "pythagoras" in topic_lower
+        or "pythagorean theorem" in topic_lower
+    ):
+        return """# 📐 Pythagoras Theorem
+
+### 📌 Definition
+
+The Pythagoras Theorem is used to find the length of a side in a right-angled triangle.
+
+### 🔑 Formula
+
+a² + b² = c²
+
+Here, c is the hypotenuse, which is the longest side.
+
+### 🧠 Example
+
+If the two shorter sides are 3 and 4:
+
+3² + 4² = 5²
+
+So, the hypotenuse is 5.
+
+### 💡 Easy to Remember
+
+Square of first side + Square of second side = Square of hypotenuse
 """
 
     # Generic fallback

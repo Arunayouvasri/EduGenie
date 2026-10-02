@@ -105,8 +105,12 @@ def fallback_learning_path(topic: str, level: str) -> str:
 - Quiz Application
 """
 
-    # SQL
-    if "sql" in topic_lower or "database" in topic_lower or "dbms" in topic_lower:
+    # SQL / Database / DBMS
+    if (
+        "sql" in topic_lower
+        or "database" in topic_lower
+        or "dbms" in topic_lower
+    ):
         return f"""# 🗄️ SQL and Database Learning Path
 
 ### Learner Level
@@ -155,7 +159,11 @@ def fallback_learning_path(topic: str, level: str) -> str:
 """
 
     # HTML / CSS / JavaScript
-    if "html" in topic_lower or "css" in topic_lower or "javascript" in topic_lower:
+    if (
+        "html" in topic_lower
+        or "css" in topic_lower
+        or "javascript" in topic_lower
+    ):
         return f"""# 🌐 Web Development Learning Path
 
 ### Learner Level

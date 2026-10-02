@@ -27,7 +27,12 @@ def _validate_quiz(data: Any) -> list[dict]:
         answer = str(item.get("answer", "")).strip()
         explanation = str(item.get("explanation", "")).strip()
 
-        if not question or not isinstance(options, list) or len(options) != 4 or not answer:
+        if (
+            not question
+            or not isinstance(options, list)
+            or len(options) != 4
+            or not answer
+        ):
             raise ValueError(
                 "Each question needs a question, four options, and an answer."
             )
@@ -154,6 +159,44 @@ def _python_quiz() -> list[dict]:
     ]
 
 
+def _water_cycle_quiz() -> list[dict]:
+    return [
+        {
+            "question": "What process changes liquid water into water vapor?",
+            "options": [
+                "Evaporation",
+                "Condensation",
+                "Precipitation",
+                "Collection"
+            ],
+            "answer": "Evaporation",
+            "explanation": "Evaporation changes liquid water into water vapor."
+        },
+        {
+            "question": "What process forms clouds when water vapor cools?",
+            "options": [
+                "Evaporation",
+                "Condensation",
+                "Collection",
+                "Runoff"
+            ],
+            "answer": "Condensation",
+            "explanation": "Condensation occurs when water vapor cools and forms water droplets."
+        },
+        {
+            "question": "What is precipitation?",
+            "options": [
+                "Water falling from clouds",
+                "Water changing into vapor",
+                "Cloud formation",
+                "Water being stored underground"
+            ],
+            "answer": "Water falling from clouds",
+            "explanation": "Rain, snow, sleet, and hail are forms of precipitation."
+        }
+    ]
+
+
 def fallback_quiz(passage: str) -> list[dict]:
     text = passage.lower()
 
@@ -166,7 +209,9 @@ def fallback_quiz(passage: str) -> list[dict]:
     if "python" in text:
         return _python_quiz()
 
-    # Generic fallback when the topic is unknown.
+    if "water cycle" in text:
+        return _water_cycle_quiz()
+
     return [
         {
             "question": "What is the passage mainly about?",
@@ -205,7 +250,6 @@ def fallback_quiz(passage: str) -> list[dict]:
 
 
 def generate_quiz(passage: str) -> list[dict] | dict:
-
     prompt = f"""Create exactly 3 multiple-choice questions from the passage below.
 Return ONLY valid JSON: an array of 3 objects.
 
