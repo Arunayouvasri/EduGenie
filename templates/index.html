@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EduGenie — AI Learning Assistant</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+
+  <!-- Markdown renderer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    /* Result formatting for all 5 tools */
+
+    #resultBody {
+      text-align: left;
+      line-height: 1.7;
+      font-size: 16px;
+      color: #333;
+      overflow-wrap: break-word;
+    }
+
+    #resultBody h1 {
+      font-size: 26px;
+      margin: 5px 0 18px;
+      color: #222;
+    }
+
+    #resultBody h2 {
+      font-size: 22px;
+      margin: 22px 0 10px;
+      color: #333;
+    }
+
+    #resultBody h3 {
+      font-size: 18px;
+      margin: 18px 0 8px;
+      color: #444;
+    }
+
+    #resultBody p {
+      margin: 8px 0 14px;
+    }
+
+    #resultBody ul,
+    #resultBody ol {
+      margin: 8px 0 18px;
+      padding-left: 28px;
+    }
+
+    #resultBody li {
+      margin-bottom: 7px;
+    }
+
+    #resultBody strong {
+      font-weight: 700;
+    }
+
+    #resultBody em {
+      font-style: italic;
+    }
+
+    #resultBody code {
+      background: #f1f3f5;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: Consolas, monospace;
+    }
+
+    #resultBody pre {
+      background: #f5f5f5;
+      padding: 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    #resultBody pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    #resultBody blockquote {
+      margin: 15px 0;
+      padding: 10px 15px;
+      border-left: 4px solid #6c63ff;
+      background: #f7f7ff;
+    }
+
+    #resultBody hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+
+    /* Better spacing inside result card */
+
+    .result {
+      margin-top: 25px;
+    }
+
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .result-head h2 {
+      margin: 0;
+    }
+
+    /* Learning path sections */
+
+    .learning-path {
+      display: block;
+    }
+
+    /* Quiz formatting */
+
+    .quiz-question {
+      background: #f8f9ff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 15px;
+    }
+
+    .quiz-question h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">E</span>
+      <span>EduGenie</span>
+    </div>
+
+    <span class="status" id="status">
+      AI Learning Assistant
+    </span>
+  </header>
+
+
+  <main class="container">
+
+    <section class="hero">
+
+      <div>
+        <p class="eyebrow">GOOGLE GEMINI POWERED</p>
+
+        <h1>
+          Learn smarter.<br>
+          <span>Understand faster.</span>
+        </h1>
+
+        <p class="subtitle">
+          Ask questions, simplify difficult topics, generate quizzes,
+          summarize notes, and build a learning path in one place.
+        </p>
+      </div>
+
+
+      <div class="hero-card">
+        <div class="spark">✦</div>
+        <b>Five learning tools</b>
+        <small>Q&A · Explain · Quiz · Summary · Learn</small>
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <div class="tabs" role="tablist">
+
+        <button class="tab active" data-task="qa">
+          Ask
+        </button>
+
+        <button class="tab" data-task="explain">
+          Explain
+        </button>
+
+        <button class="tab" data-task="quiz">
+          Quiz
+        </button>
+
+        <button class="tab" data-task="summarize">
+          Summarize
+        </button>
+
+        <button class="tab" data-task="learn">
+          Learning Path
+        </button>
+
+      </div>
+
+
+      <form id="taskForm">
+
+        <label id="inputLabel" for="inputText">
+          What would you like to know?
+        </label>
+
+
+        <textarea id="inputText" placeholder="Example: Explain the difference between TCP and UDP..."
+          required></textarea>
+
+
+        <div class="controls">
+
+          <select id="level" class="hidden">
+
+            <option value="beginner">
+              Beginner
+            </option>
+
+            <option value="intermediate">
+              Intermediate
+            </option>
+
+            <option value="advanced">
+              Advanced
+            </option>
+
+          </select>
+
+
+          <button class="primary" type="submit" id="submitBtn">
+            Ask EduGenie
+            <span>→</span>
+          </button>
+
+        </div>
+
+      </form>
+
+
+      <div id="result" class="result hidden">
+
+        <div class="result-head">
+
+          <h2>Result</h2>
+
+          <button id="copyBtn" class="copy" type="button">
+            Copy
+          </button>
+
+        </div>
+
+
+        <div id="resultBody"></div>
+
+      </div>
+
+    </section>
+
+
+    <section class="features">
+
+      <article>
+        <div>💡</div>
+        <h3>Simple explanations</h3>
+        <p>
+          Break complex concepts into easy-to-revise points.
+        </p>
+      </article>
+
+
+      <article>
+        <div>🧠</div>
+        <h3>Smart Q&A</h3>
+        <p>
+          Get concise answers to academic questions.
+        </p>
+      </article>
+
+
+      <article>
+        <div>📝</div>
+        <h3>Practice quizzes</h3>
+        <p>
+          Generate three MCQs from your study material.
+        </p>
+      </article>
+
+
+      <article>
+        <div>🚀</div>
+        <h3>Personalized paths</h3>
+        <p>
+          Move from beginner foundations to advanced practice.
+        </p>
+      </article>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    EduGenie · Built with FastAPI + Google Gemini
+  </footer>
+
+
+  <script src="{{ url_for('static', path='app.js') }}"></script>
+
+
+  <!--
+    Converts Gemini Markdown responses into
+    properly aligned HTML.
+  -->
+  <script>
+
+    function formatEduGenieResult() {
+
+      const resultBody = document.getElementById("resultBody");
+
+      if (!resultBody) return;
+
+      /*
+       * If the result is already properly rendered HTML
+       * by app.js, don't modify it.
+       */
+      if (resultBody.querySelector(
+        "h1, h2, h3, ul, ol, pre, .quiz-question"
+      )) {
+        return;
+      }
+
+      const text = resultBody.textContent.trim();
+
+      if (!text) return;
+
+      /*
+       * Don't try to Markdown-render JSON.
+       * Quiz rendering can be handled by app.js.
+       */
+      if (
+        text.startsWith("[") ||
+        text.startsWith("{")
+      ) {
+        return;
+      }
+
+      /*
+       * Convert Gemini Markdown into proper HTML.
+       */
+      if (typeof marked !== "undefined") {
+
+        resultBody.innerHTML = marked.parse(text);
+
+      }
+
+    }
+
+
+    /*
+     * Watch for new results inserted by app.js.
+     */
+    const resultBody = document.getElementById("resultBody");
+
+    if (resultBody) {
+
+      const observer = new MutationObserver(function () {
+
+        setTimeout(function () {
+
+          formatEduGenieResult();
+
+        }, 50);
+
+      });
+
+
+      observer.observe(resultBody, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+
+    }
+
+  </script>
+
+</body>
+
+</html>
