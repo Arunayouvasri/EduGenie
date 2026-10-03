@@ -73,7 +73,7 @@ Copy `.env.example` to `.env` and put your Gemini API key in it:
 
 ```text
 GEMINI_API_KEY=your_real_key_here
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.8-flash
 USE_LOCAL_EXPLAINER=false
 ```
 
