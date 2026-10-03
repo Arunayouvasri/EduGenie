@@ -30,7 +30,7 @@ FastAPI (`main.py`)
 
 ## Why the Gemini model is updated
 
-The original document names Gemini 1.5 Pro. That model is no longer the appropriate current choice for a new implementation, so this project uses the current Google GenAI SDK and a stable Gemini model through the `GEMINI_MODEL` setting. The default is `gemini-2.5-flash`; you can change it without editing Python code.
+The original document names Gemini 1.5 Pro. That model is no longer the appropriate current choice for a new implementation, so this project uses the current Google GenAI SDK and a stable Gemini model through the `GEMINI_MODEL` setting. The default is `gemini-3.8-flash`; it can be changed without editing Python code.
 
 ## VS Code setup — Windows
 
